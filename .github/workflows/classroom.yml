@@ -35,12 +35,3 @@ jobs:
             echo "Errors found."
             exit 1
           fi
-
-      - name: Summary
-        if: always()
-        run: |
-          if [ -f PA_1_3_Data_Cleaning_and_Boosting_Productivity.html ]; then
-            echo "::set-env name=summary::No errors found."
-          else
-            echo "::set-env name=summary::Errors found."
-          fi
