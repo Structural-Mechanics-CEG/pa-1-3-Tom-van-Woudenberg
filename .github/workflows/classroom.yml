@@ -1,39 +1,48 @@
-name: Programmig Assignment check
+name: Programming Assignment check
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
 
 jobs:
-    check:
-        runs-on: ubuntu-latest
+  check:
+    runs-on: ubuntu-latest
 
-        steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Set up Python
-          uses: actions/setup-python@v5
-          with:
-              python-version: 3.12
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
 
-        - name: Install dependencies
-          run: |
-                python -m pip install --upgrade pip
-                pip install jupyter
-                pip install numpy
-                pip install matplotlib
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyter
+          pip install numpy
+          pip install matplotlib
 
-        - name: Run Jupyter Notebook
-          run: |
-                jupyter nbconvert --execute PA_1_3_Data_Cleaning_and_Boosting_Productivity.ipynb --to html
+      - name: Run Jupyter Notebook
+        run: |
+          jupyter nbconvert --execute PA_1_3_Data_Cleaning_and_Boosting_Productivity.ipynb --to html
 
-        - name: Check for errors
-          run: |
-                if [ -f PA_1_3_Data_Cleaning_and_Boosting_Productivity.html ]; then
-                    echo "No errors found."
-                else
-                    echo "Errors found."
-                    exit 1
-                fi
+      - name: Check for errors
+        run: |
+          if [ -f PA_1_3_Data_Cleaning_and_Boosting_Productivity.html ]; then
+            echo "No errors found."
+          else
+            echo "Errors found."
+            exit 1
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          if [ -f PA_1_3_Data_Cleaning_and_Boosting_Productivity.html ]; then
+            echo "::set-output name=summary::No errors found."
+          else
+            echo "::set-output name=summary::Errors found."
+          fi
